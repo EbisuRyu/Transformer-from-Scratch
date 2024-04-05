@@ -1,10 +1,10 @@
 import torch
-import wandb
 import copy
 import logging
+import os
 from tqdm import tqdm
 from torch.utils.tensorboard import SummaryWriter
-import os
+
 
 # Configure Logging
 log = logging.getLogger(__name__)

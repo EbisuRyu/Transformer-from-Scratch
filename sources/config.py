@@ -1,5 +1,3 @@
-from pathlib import Path
-
 class Configuration():
     def __init__(self):
         self.EXPERIMENT_NAME = 'runs/tmodel'

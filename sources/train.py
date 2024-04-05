@@ -1,18 +1,15 @@
-import os
-from logging import log
-
 import torch
 import torch.nn as nn
-from tqdm import tqdm
-
 import torch.optim as optim
+from tokenizers import Tokenizer
+
 from .learner import Learner
 from .scheduler import CustomScheduler
 from .dataset import get_translation_dataloaders
 from .machine_translation import MachineTranslationTransformer
-from .config import get_config
-from tokenizers import Tokenizer
-from pathlib import Path
+
+
+
 from torch.utils.tensorboard import SummaryWriter
 
 def train_model(config):
