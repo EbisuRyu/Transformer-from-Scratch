@@ -32,5 +32,5 @@ class PositionalEncoding(nn.Module):
     def forward(self, embedding_batch):
         # Generate positional encodings
         seq_length = embedding_batch.size(1)
-        pe_batch = self.pe[:, :seq_length]
+        pe_batch = self.pe[:, :seq_length].to(embedding_batch.device)
         return self.dropout(embedding_batch + pe_batch)

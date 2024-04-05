@@ -35,7 +35,8 @@ def train_model(config):
             n_heads = config.N_HEADS,
             d_ff = config.D_FF,
             dropout = config.DROPOUT
-        )
+        ).to(device)
+    
     initial_epoch = 0
     if config.PRETRAIN_MODEL_PTH is not None:
         model_filename = config.PRETRAIN_MODEL_PTH

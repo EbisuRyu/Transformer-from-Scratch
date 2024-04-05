@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 
 class Learner:
-    def __init__(self, config, model, tokenizer, train_dataloader, val_dataloader, loss_func, optimizer, scheduler = None, writer = None, device = 'cuda'):
+    def __init__(self, config, model, tokenizer, train_dataloader, val_dataloader, loss_func, optimizer, scheduler = None, writer = None, device = 'cpu'):
         self.config = config
         self.model = model
         self.tokenizer = tokenizer
@@ -55,7 +55,7 @@ class Learner:
         self.model.train()
         batch_iterator = tqdm(self.train_dataloader, desc = f'Processing Epoch {epoch:02d}', total = len(self.train_dataloader))
         loss_sum = 0
-        for idx, batch in enumerate(batch_iterator):
+        for batch in batch_iterator:
             encoder_input = batch[0].to(self.device)
             decoder_input = batch[1].to(self.device)
             pred_token_ids = self.model(encoder_input, decoder_input)
