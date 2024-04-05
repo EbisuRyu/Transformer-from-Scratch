@@ -9,10 +9,10 @@ class Configuration():
             """
         self.RUN_NAME = 'unofficial_single_gpu_run'
         self.RUN_DESCRIPTION = 'Default run on GPU, 10GB of VRAM needed for this.'
-        self.RUNS_FOLDER_PTH = '../Transformer from Scratch/runs'
-        self.SAVE_MODEL_DIR = '../Transformer from Scratch/model'
-        self.PRETRAIN_MODEL_PTH = '../Transformer from Scratch/model/model_ckpt_epoch20.pt'
-        self.TOKENIZER_SAVE_PTH = '../Transformer from Scratch/model/tokenizer.json'
+        self.RUNS_FOLDER_PTH = '../Transformer-from-Scratch/runs'
+        self.SAVE_MODEL_DIR = '../Transformer-from Scratch/model'
+        self.PRETRAIN_MODEL_PTH = '../Transformer-from-Scratch/model/model_ckpt_epoch20.pt'
+        self.TOKENIZER_SAVE_PTH = '../Transformer-from-Scratch/model/tokenizer.json'
         # DATA CONFIG:
         self.DATASET_SIZE = 100000
         self.TEST_PROPORTION = 0.001
