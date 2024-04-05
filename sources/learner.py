@@ -35,11 +35,7 @@ class Learner:
                     break
                 encoder_input = batch[0].to(self.device)
                 decoder_input = batch[1].to(self.device)
-                pred_token_ids = self.model(encoder_input, decoder_input)
-                loss = self.loss_func(
-                    pred_token_ids.reshape(-1, pred_token_ids.size(-1)), # Reshaping for loss
-                    decoder_input[:, 1:].contiguous().view(-1) # Shifting right (without BOS)
-                )
+                
                 for i in range(encoder_input.size(0)):
                     if i == 8:
                         break
