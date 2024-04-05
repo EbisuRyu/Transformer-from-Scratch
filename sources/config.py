@@ -10,7 +10,7 @@ class Configuration():
         self.RUN_NAME = 'unofficial_single_gpu_run'
         self.RUN_DESCRIPTION = 'Default run on GPU, 10GB of VRAM needed for this.'
         self.RUNS_FOLDER_PTH = '/kaggle/working/Transformer-from-Scratch/runs'
-        self.SAVE_MODEL_DIR = '/kaggle/working/Transformer-from Scratch/model'
+        self.SAVE_MODEL_DIR = '/kaggle/working/Transformer-from-Scratch/model'
         self.PRETRAIN_MODEL_PTH = '/kaggle/working/Transformer-from-Scratch/model/model_ckpt_epoch20.pt'
         self.TOKENIZER_SAVE_PTH = '/kaggle/working/Transformer-from-Scratch/model/tokenizer.json'
         # DATA CONFIG:
