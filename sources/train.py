@@ -37,6 +37,8 @@ def train_model(config):
             dropout = config.DROPOUT
         ).to(device)
     
+    loss_func = nn.CrossEntropyLoss(ignore_index = 0, label_smoothing = 0.1, reduction = 'mean')
+    optimizer = optim.Adam(model.parameters(), betas = config.BETAS, eps = config.EPS)
     initial_epoch = 0
     if config.PRETRAIN_MODEL_PTH is not None:
         model_filename = config.PRETRAIN_MODEL_PTH
@@ -46,8 +48,6 @@ def train_model(config):
         optimizer.load_state_dict(state['optimizer_state_dict'])
         model.load_state_dict(state['model_state_dict'])
     
-    loss_func = nn.CrossEntropyLoss(ignore_index = 0, label_smoothing = 0.1, reduction = 'mean')
-    optimizer = optim.Adam(model.parameters(), betas = config.BETAS, eps = config.EPS)
     scheduler = CustomScheduler(optimizer, config.D_MODEL, config.N_WARMUP_STEPS)
     # Tensorboard
     writer = SummaryWriter(config.EXPERIMENT_NAME)
