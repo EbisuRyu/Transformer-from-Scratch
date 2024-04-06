@@ -14,7 +14,7 @@ class Configuration():
         self.PRETRAIN_MODEL_PTH = '/kaggle/working/Transformer-from-Scratch/model/model_ckpt_epoch20.pt'
         self.TOKENIZER_SAVE_PTH = '/kaggle/working/Transformer-from-Scratch/model/tokenizer.json'
         # DATA CONFIG:
-        self.DATASET_SIZE = 100000
+        self.DATASET_SIZE = 133317
         self.TEST_PROPORTION = 0.001
         self.MAX_LEN = 40
         self.VOCAB_SIZE = 60000

@@ -1,6 +1,6 @@
 import gdown
-def download_pretrained_model(epoch = 20):
-    url = 'https://drive.google.com/uc?id=1cbhg7wphS8OnM08Fg1SFpp8d_Z11W8cV'
+def download_pretrained_model(epoch = 60):
+    url = 'https://drive.google.com/file/d/1U5VVB8n0H93Y0lVwgqnYP3QGZMehu6sH'
     output = f'/kaggle/working/Transformer-from-Scratch/model/model_ckpt_epoch{epoch}.pt'
     gdown.download(url, output, quiet = False)
     
