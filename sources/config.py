@@ -12,6 +12,7 @@ class Configuration():
         self.RUNS_FOLDER_PTH = '/kaggle/working/Transformer-from-Scratch/runs'
         self.SAVE_MODEL_DIR = '/kaggle/working/Transformer-from-Scratch/model'
         self.PRETRAIN_MODEL_PTH = '/kaggle/working/Transformer-from-Scratch/model/model_ckpt_epoch60.pt'
+        self.PRETRAIN_TOKENIZER_PT = '/kaggle/working/Transformer-from-Scratch/model/tokenizer.json'
         self.TOKENIZER_SAVE_PTH = '/kaggle/working/Transformer-from-Scratch/model/tokenizer.json'
         # DATA CONFIG:
         self.DATASET_SIZE = 133317
