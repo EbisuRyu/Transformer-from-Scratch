@@ -8,7 +8,7 @@ def main():
     wandb.login()
     wandb.init(config = configuration,
             project = "transformer-from-scratch",
-            mode = "disabled")
+            mode = "online")
     
     Path(wandb.config.RUNS_FOLDER_PTH).mkdir(parents = True, exist_ok = True)
     Path(wandb.config.SAVE_MODEL_DIR).mkdir(parents = True, exist_ok = True)
