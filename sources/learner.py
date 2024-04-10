@@ -83,9 +83,6 @@ class Learner:
                     decoder_input[:, 1:].contiguous().view(-1) # Shifting right (without BOS)
                 )
                 loss_sum += loss.item()
-                wandb.log({'Epoch': epoch})
-                wandb.log({'Batch': batch_idx})
-                wandb.log({'Validation/Loss': loss.item()})
                 
                 pred_token_ids = pred_token_ids.detach().cpu()
                 pred_token_ids = nn.functional.log_softmax(pred_token_ids, dim = -1)
@@ -102,8 +99,8 @@ class Learner:
                 
             loss_avg = loss_sum / len(self.val_dataloader)
             bleu_score = corpus_bleu(target_text_list, predict_text_list, smoothing_function = SmoothingFunction().method4)
-            wandb.log({'Validation/BLEU': bleu_score, 'Epoch': epoch})
-            wandb.log({'Validation/Avg_loss': loss_avg, 'Epoch': epoch})
+            wandb.log({'Validation/BLEU': bleu_score, 'Epoch': epoch}, step = self.cur_step)
+            wandb.log({'Validation/Avg_loss': loss_avg, 'Epoch': epoch}, step = self.cur_step)
             print(f'    - [Info] Validation Loss: {loss_avg:.3f}, BLEU Score: {bleu_score:.3f}')
         
                 
