@@ -99,8 +99,8 @@ class Learner:
                 
             loss_avg = loss_sum / len(self.val_dataloader)
             bleu_score = corpus_bleu(target_text_list, predict_text_list, smoothing_function = SmoothingFunction().method4)
-            wandb.log({'Validation/BLEU': bleu_score, 'Epoch': epoch}, step = self.cur_step)
-            wandb.log({'Validation/Avg_loss': loss_avg, 'Epoch': epoch}, step = self.cur_step)
+            wandb.log({'Validation/BLEU': bleu_score}, step = self.cur_step)
+            wandb.log({'Validation/Avg_loss': loss_avg}, step = self.cur_step)
             print(f'    - [Info] Validation Loss: {loss_avg:.3f}, BLEU Score: {bleu_score:.3f}')
         
                 
