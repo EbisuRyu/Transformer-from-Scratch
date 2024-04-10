@@ -4,7 +4,7 @@ configuration = dict(
     RUN_DESCRIPTION = 'Default run on GPU, 10GB of VRAM needed for this.',
     RUNS_FOLDER_PTH = './Transformer-from-Scratch/runs',
     SAVE_MODEL_DIR = './Transformer-from-Scratch/model',
-    PRETRAIN_MODEL_PTH = './Transformer-from-Scratch/model/model_ckpt_epoch60.pt',
+    PRETRAIN_MODEL_PTH = './Transformer-from-Scratch/model/model_ckpt_epoch150.pt',
     PRETRAIN_TOKENIZER_PT = './Transformer-from-Scratch/model/tokenizer.json',
     TOKENIZER_SAVE_PTH = './Transformer-from-Scratch/model/tokenizer.json',
     # DATA CONFIG:
