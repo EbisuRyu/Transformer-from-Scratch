@@ -1,4 +1,5 @@
 import torch
+import wandb
 import torch.nn as nn
 import torch.optim as optim
 from tokenizers import Tokenizer
@@ -8,14 +9,9 @@ from .scheduler import CustomScheduler
 from .dataset import get_translation_dataloaders
 from .machine_translation import MachineTranslationTransformer
 
-
-
-from torch.utils.tensorboard import SummaryWriter
-
 def train_model(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f'Device: {device}')
-
    
     train_dataloader, val_dataloader = get_translation_dataloaders(
             dataset_size = config.DATASET_SIZE,
@@ -37,6 +33,7 @@ def train_model(config):
             dropout = config.DROPOUT
         ).to(device)
     
+    wandb.watch(model, log_freq = 1000)
     loss_func = nn.CrossEntropyLoss(ignore_index = 0, label_smoothing = 0.1, reduction = 'mean')
     optimizer = optim.Adam(model.parameters(), betas = config.BETAS, eps = config.EPS)
     initial_epoch = 0
@@ -49,8 +46,7 @@ def train_model(config):
         model.load_state_dict(state['model_state_dict'])
     
     scheduler = CustomScheduler(optimizer, config.D_MODEL, config.N_WARMUP_STEPS)
-    # Tensorboard
-    writer = SummaryWriter(config.EXPERIMENT_NAME)
+    
     tokenizer = Tokenizer.from_file(config.TOKENIZER_SAVE_PTH)
-    learner = Learner(config, model, tokenizer, train_dataloader, val_dataloader, loss_func, optimizer, scheduler, writer, device)
+    learner = Learner(config, model, tokenizer, train_dataloader, val_dataloader, loss_func, optimizer, scheduler, device)
     learner.fit(initial_epoch, config.EPOCHS)

@@ -1,12 +1,11 @@
 import random
 import torch
+import wandb
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.sampler import Sampler
 from torch.nn.utils.rnn import pad_sequence
 from datasets import load_dataset
 from tokenizers import Tokenizer
-
-from .config import get_config
 from .tokenizer import get_tokenizer_wordlevel, get_tokenizer_bpe
 
 def get_dataset(example_cnt):
@@ -104,15 +103,14 @@ def get_translation_dataloaders(
     ):
 
     data = get_dataset(dataset_size)
-    config = get_config()
     
     if tokenizer_type == 'wordlevel':
         tokenizer = get_tokenizer_wordlevel(data, vocab_size)
     elif tokenizer_type == 'bpe':
         tokenizer = get_tokenizer_bpe(data, vocab_size)
     
-    if config.PRETRAIN_TOKENIZER_PT is not None:
-        tokenizer = Tokenizer.from_file(config.PRETRAIN_TOKENIZER_PT)
+    if wandb.config.PRETRAIN_TOKENIZER_PT is not None:
+        tokenizer = Tokenizer.from_file(wandb.config.PRETRAIN_TOKENIZER_PT)
     else:
         # Save tokenizers
         print(f'Saving tokenizer to {tokenizer_save_pth}')
