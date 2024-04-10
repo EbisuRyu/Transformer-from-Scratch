@@ -125,10 +125,10 @@ class Learner:
                 if self.scheduler != None:
                     self.scheduler.step()
                 self.optimizer.zero_grad()
-            self.cur_step += 1
             wandb.log({'Epoch': epoch}, step = self.cur_step)
             wandb.log({'Batch': batch_idx}, step = self.cur_step)
             wandb.log({'Train/Loss': loss.item()}, step = self.cur_step)
+            self.cur_step += 1
             
             
         loss_avg = loss_sum / len(self.train_dataloader)
