@@ -154,9 +154,10 @@ class Learner:
     def fit(self, start_epoch, n_epochs):
         self.n_epochs = n_epochs
         for epoch_idx in range(start_epoch, start_epoch + n_epochs):
-            self.training_epoch(epoch_idx)
             self.track_example(epoch_idx, num_examples = 2)
             self.validation_epoch(epoch_idx)
+            self.training_epoch(epoch_idx)
+            
         # Save best model
         best_model_ckpt_pth = os.path.join(self.config.SAVE_MODEL_DIR, f'model_ckpt_best.pt')
         best_checkpoint = {
