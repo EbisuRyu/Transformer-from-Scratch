@@ -1,7 +1,6 @@
 import gdown
-def download_pretrained_model(epoch = 20):
-    url = 'https://drive.google.com/uc?id=1cbhg7wphS8OnM08Fg1SFpp8d_Z11W8cV'
-    output = f'../Transformer-from-Scratch/model/model_ckpt_epoch{epoch}.pth'
+def download_pretrained_model(epoch = 150):
+    url = 'https://drive.google.com/uc?id=1Be1791q3DZj8YRwXHJgRZ14v48B5KRat'
+    output = f'./Transformer-from-Scratch/model/model_ckpt_epoch{epoch}.pt'
     gdown.download(url, output, quiet = False)
-    
 download_pretrained_model()
