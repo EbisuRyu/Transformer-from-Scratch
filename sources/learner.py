@@ -83,6 +83,7 @@ class Learner:
                 )
                 loss_sum += loss.item()
                 wandb.log({'Validation/Loss': loss.item()}, step = self.global_step)
+                self.global_step += 1
                 
                 pred_token_ids = pred_token_ids.detach().cpu()
                 pred_token_ids = nn.functional.log_softmax(pred_token_ids, dim = -1)
@@ -105,6 +106,7 @@ class Learner:
                     'Validation/Avg_loss': loss_avg
                 }, step = self.global_step)
             self.global_step += 1
+            
             print(f'    - [Info] Validation Loss: {loss_avg:.3f}, BLEU Score: {bleu_score:.3f}')
         
                 
@@ -124,7 +126,7 @@ class Learner:
             loss_sum += loss.item()
             batch_iterator.set_postfix({'loss': f"{loss.item():6.3f}"})
             loss.backward()
-            if self.global_step % self.config.GRAD_ACCUMULATION_STEPS == 0:
+            if self.training_step % self.config.GRAD_ACCUMULATION_STEPS == 0:
                 self.optimizer.step()
                 if self.scheduler != None:
                     self.scheduler.step()
@@ -136,6 +138,7 @@ class Learner:
         loss_avg = loss_sum / len(self.train_dataloader)
         wandb.log({'Train/Avg_loss': loss_avg}, step = self.global_step)
         self.global_step += 1
+        
         # Save model every 'epoch_cnt' epochs
         if epoch % self.config.MODEL_SAVE_EPOCH_CNT == 0:
             epoch_ckpt_pth = os.path.join(self.config.SAVE_MODEL_DIR, f'model_ckpt_epoch{epoch}.pt')
@@ -160,11 +163,10 @@ class Learner:
         
         for epoch_idx in range(start_epoch, start_epoch + n_epochs):
             self.track_example(epoch_idx, num_examples = 2)
-            wandb.log({'Tracking': self.table})
-            
             self.validation_epoch(epoch_idx)
             self.training_epoch(epoch_idx)
-        wandb.log({'Tracking': self.table}, global_step = self.global_step)
+            
+        wandb.log({'Tracking': self.table}) 
         # Save best model
         best_model_ckpt_pth = os.path.join(self.config.SAVE_MODEL_DIR, f'model_ckpt_best.pt')
         best_checkpoint = {
