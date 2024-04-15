@@ -8,6 +8,7 @@ def main():
     wandb.login()
     wandb.init(config = configuration,
             project = "transformer-from-scratch",
+            name = "transformer-from-scratch",
             mode = "online")
     
     Path(wandb.config.RUNS_FOLDER_PTH).mkdir(parents = True, exist_ok = True)
