@@ -19,6 +19,7 @@ class Learner:
         self.optimizer = optimizer
         self.scheduler = scheduler
         self.device = device
+        self.training_step = 1
         self.global_step = 1
         self.best_val_loss = float('inf')
         self.best_model_state_dict = copy.deepcopy(self.model.state_dict())
@@ -141,6 +142,7 @@ class Learner:
                 'Train/Loss': loss.item()
                 }, step = self.global_step)
             self.global_step += 1
+            self.training_step += 1
             
             
         loss_avg = loss_sum / len(self.train_dataloader)
