@@ -10,7 +10,6 @@ def main():
     wandb_config = {
             'project': config['EXPERIMENT_NAME'],
             'name': config['RUN_NAME'],
-            'description': config['RUN_DESCRIPTION']
     }
     wandb.login()
     wandb.init(config = config, mode = "online", **wandb_config)
