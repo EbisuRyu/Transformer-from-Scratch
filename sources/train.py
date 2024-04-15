@@ -33,7 +33,7 @@ def train_model(config):
             dropout = config.DROPOUT
         ).to(device)
     
-    wandb.watch(model, log_freq = 1000)
+    wandb.watch(model, log = "all", log_freq = 1000)
     loss_func = nn.CrossEntropyLoss(ignore_index = 0, label_smoothing = 0.1, reduction = 'mean')
     optimizer = optim.Adam(model.parameters(), betas = config.BETAS, eps = config.EPS)
     initial_epoch = 0
