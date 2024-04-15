@@ -17,7 +17,7 @@ configuration = dict(
     BATCH_SIZE = 48,
     GRAD_ACCUMULATION_STEPS = 2048//48,
     WORKER_COUNT = 10,
-    EPOCHS = 100,
+    EPOCHS = 20,
     # OPTIMIZER CONFIG:
     BETAS = (0.9, 0.98),
     EPS = 1e-9,
