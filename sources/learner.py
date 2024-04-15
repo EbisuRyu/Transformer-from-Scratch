@@ -19,7 +19,7 @@ class Learner:
         self.optimizer = optimizer
         self.scheduler = scheduler
         self.device = device
-        self.cur_step = 1
+        self.global_step = 1
         self.best_val_loss = float('inf')
         self.best_model_state_dict = copy.deepcopy(self.model.state_dict())
         
@@ -102,7 +102,8 @@ class Learner:
                 {
                     'Validation/BLEU': bleu_score,
                     'Validation/Avg_loss': loss_avg
-                })
+                }, step = self.global_step)
+            self.global_step += 1
             print(f'    - [Info] Validation Loss: {loss_avg:.3f}, BLEU Score: {bleu_score:.3f}')
         
                 
@@ -122,17 +123,18 @@ class Learner:
             loss_sum += loss.item()
             batch_iterator.set_postfix({'loss': f"{loss.item():6.3f}"})
             loss.backward()
-            if self.cur_step % self.config.GRAD_ACCUMULATION_STEPS == 0:
+            if self.global_step % self.config.GRAD_ACCUMULATION_STEPS == 0:
                 self.optimizer.step()
                 if self.scheduler != None:
                     self.scheduler.step()
                 self.optimizer.zero_grad()
-            wandb.log({'Train/Loss': loss.item()}, step = self.cur_step)
-            self.cur_step += 1
+            wandb.log({'Train/Loss': loss.item()}, step = self.global_step)
+            self.global_step += 1
             
             
         loss_avg = loss_sum / len(self.train_dataloader)
-        wandb.log({'Train/Avg_loss': loss_avg})
+        wandb.log({'Train/Avg_loss': loss_avg}, step = self.global_step)
+        self.global_step += 1
         # Save model every 'epoch_cnt' epochs
         if epoch % self.config.MODEL_SAVE_EPOCH_CNT == 0:
             epoch_ckpt_pth = os.path.join(self.config.SAVE_MODEL_DIR, f'model_ckpt_epoch{epoch}.pt')
@@ -159,7 +161,7 @@ class Learner:
             self.track_example(epoch_idx, num_examples = 2)
             self.validation_epoch(epoch_idx)
             self.training_epoch(epoch_idx)
-        wandb.log({'Tracking': self.table})
+        wandb.log({'Tracking': self.table}, global_step = self.global_step)
         # Save best model
         best_model_ckpt_pth = os.path.join(self.config.SAVE_MODEL_DIR, f'model_ckpt_best.pt')
         best_checkpoint = {
