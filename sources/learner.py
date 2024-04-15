@@ -82,7 +82,10 @@ class Learner:
                     decoder_input[:, 1:].contiguous().view(-1) # Shifting right (without BOS)
                 )
                 loss_sum += loss.item()
-                wandb.log({'Validation/Loss': loss.item()}, step = self.global_step)
+                wandb.log({
+                    'Epoch': epoch,
+                    'Validation/Loss': loss.item()
+                    }, step = self.global_step)
                 self.global_step += 1
                 
                 pred_token_ids = pred_token_ids.detach().cpu()
@@ -102,6 +105,7 @@ class Learner:
             bleu_score = corpus_bleu(target_text_list, predict_text_list, smoothing_function = SmoothingFunction().method4)
             wandb.log(
                 {
+                    'Epoch': epoch,
                     'Validation/BLEU': bleu_score,
                     'Validation/Avg_loss': loss_avg
                 }, step = self.global_step)
@@ -131,24 +135,30 @@ class Learner:
                 if self.scheduler != None:
                     self.scheduler.step()
                 self.optimizer.zero_grad()
-            wandb.log({'Train/Loss': loss.item()}, step = self.global_step)
+            wandb.log({
+                'Epoch': epoch,
+                'Batch': batch_idx,
+                'Train/Loss': loss.item()
+                }, step = self.global_step)
             self.global_step += 1
             
             
         loss_avg = loss_sum / len(self.train_dataloader)
-        wandb.log({'Train/Avg_loss': loss_avg}, step = self.global_step)
+        wandb.log({
+            'Epoch': epoch,
+            'Train/Avg_loss': loss_avg
+            }, step = self.global_step)
         self.global_step += 1
         
         # Save model every 'epoch_cnt' epochs
         if epoch % self.config.MODEL_SAVE_EPOCH_CNT == 0:
-            epoch_ckpt_pth = os.path.join(self.config.SAVE_MODEL_DIR, f'model_ckpt_epoch{epoch}.pt')
+            epoch_ckpt_pth = os.path.join(self.config.RUNS_FOLDER_PTH, self.config.RUN_NAME, f'model_ckpt_epoch{epoch}.pt')
             checkpoint = {
                 'epoch': epoch,
                 'model_state_dict': self.model.state_dict(),
                 'optimizer_state_dict': self.optimizer.state_dict(),
             }
             torch.save(checkpoint, epoch_ckpt_pth)
-            wandb.save(os.path.join(wandb.run.dir, 'epochs'), epoch_ckpt_pth)
             print('    - [Info] The checkpoint file has been updated.')
     
         # Save best model
@@ -168,12 +178,11 @@ class Learner:
             
         wandb.log({'Tracking': self.table}) 
         # Save best model
-        best_model_ckpt_pth = os.path.join(self.config.SAVE_MODEL_DIR, f'model_ckpt_best.pt')
+        best_model_ckpt_pth = os.path.join(self.config.RUNS_FOLDER_PTH, self.config.RUN_NAME, f'model_ckpt_best.pt')
         best_checkpoint = {
             'model_state_dict': self.best_model_state_dict,
             'optimizer_state_dict': self.optimizer.state_dict(),
         }
-        torch.save(best_checkpoint, best_model_ckpt_pth)
-        wandb.save(os.path.join(wandb.run.dir, 'best_model'), best_model_ckpt_pth) 
+        torch.save(best_checkpoint, best_model_ckpt_pth) 
         print('    - [Info] The best checkpoint file has been updated.') 
             

@@ -1,9 +1,9 @@
 option_1 = dict(
     # RUN CONFIG:
-    EXPERIMENT_NAME = 'runs/tmodel',
+    EXPERIMENT_NAME = 'transformer-from-scratch',
     RUN_NAME = 'official_single_gpu_run',
     RUN_DESCRIPTION = 'Default run on GPU, 10GB of VRAM needed for this.',
-    RUNS_FOLDER_PTH = './Transformer-from-Scratch/runs',
+    RUNS_FOLDER_PTH = '../runs',
     
     # DATA CONFIG:
     DATASET_SIZE = 133317,
@@ -46,7 +46,7 @@ option_1 = dict(
 
 option_2 = dict(
     # RUN CONFIG:
-    EXPERIMENT_NAME = 'runs/tmodel',
+    EXPERIMENT_NAME = 'transformer-from-scratch',
     RUN_NAME = 'unofficial_single_gpu_run',
     RUN_DESCRIPTION = 'Default run on GPU, 10GB of VRAM needed for this.',
     RUNS_FOLDER_PTH = './Transformer-from-Scratch/runs',
@@ -81,8 +81,6 @@ option_2 = dict(
     # LOCAL PATH CONFIG:
     PRETRAIN_MODEL_PTH = './Transformer-from-Scratch/model/model_ckpt_epoch150.pt',
     PRETRAIN_TOKENIZER_PT = './Transformer-from-Scratch/model/tokenizer.json',
-    SAVE_MODEL_DIR = './Transformer-from-Scratch/model',
-    TOKENIZER_SAVE_PTH = './Transformer-from-Scratch/model/tokenizer.json',
     
     # OTHER:
     DEVICE = 'cpu',
