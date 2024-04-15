@@ -8,8 +8,8 @@ from datasets import load_dataset
 from tokenizers import Tokenizer
 from .tokenizer import get_tokenizer_wordlevel, get_tokenizer_bpe
 
-def get_dataset(example_cnt):
-    dataset = load_dataset('mt_eng_vietnamese',  "iwslt2015-en-vi", split = 'train').shuffle(seed = 42)
+def get_dataset(example_cnt, split = 'train'):
+    dataset = load_dataset('mt_eng_vietnamese',  "iwslt2015-en-vi", split = split).shuffle(seed = 42)
     dataset = dataset.select(range(example_cnt))
     dataset = dataset.flatten()
     dataset = dataset.rename_column('translation.en', 'translation_src')

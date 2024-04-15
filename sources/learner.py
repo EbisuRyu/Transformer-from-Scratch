@@ -19,8 +19,6 @@ class Learner:
         self.optimizer = optimizer
         self.scheduler = scheduler
         self.device = device
-        self.training_step = 1
-        self.validation_step = 1
         self.global_step = 1
         self.best_val_loss = float('inf')
         self.best_model_state_dict = copy.deepcopy(self.model.state_dict())
@@ -84,8 +82,8 @@ class Learner:
                     decoder_input[:, 1:].contiguous().view(-1) # Shifting right (without BOS)
                 )
                 loss_sum += loss.item()
-                wandb.log({'Validation/Loss': loss.item()}, step = self.validation_step)
-                self.validation_step += 1
+                wandb.log({'Validation/Loss': loss.item()}, step = self.global_step)
+                self.global_step += 1
                 
                 pred_token_ids = pred_token_ids.detach().cpu()
                 pred_token_ids = nn.functional.log_softmax(pred_token_ids, dim = -1)
@@ -107,6 +105,7 @@ class Learner:
                     'Validation/BLEU': bleu_score,
                     'Validation/Avg_loss': loss_avg
                 }, step = self.global_step)
+            self.global_step += 1
             
             print(f'    - [Info] Validation Loss: {loss_avg:.3f}, BLEU Score: {bleu_score:.3f}')
         
@@ -132,13 +131,14 @@ class Learner:
                 if self.scheduler != None:
                     self.scheduler.step()
                 self.optimizer.zero_grad()
-            wandb.log({'Train/Loss': loss.item()}, step = self.training_step)
-            self.training_step += 1
+            wandb.log({'Train/Loss': loss.item()}, step = self.global_step)
             self.global_step += 1
             
             
         loss_avg = loss_sum / len(self.train_dataloader)
         wandb.log({'Train/Avg_loss': loss_avg}, step = self.global_step)
+        self.global_step += 1
+        
         # Save model every 'epoch_cnt' epochs
         if epoch % self.config.MODEL_SAVE_EPOCH_CNT == 0:
             epoch_ckpt_pth = os.path.join(self.config.SAVE_MODEL_DIR, f'model_ckpt_epoch{epoch}.pt')
