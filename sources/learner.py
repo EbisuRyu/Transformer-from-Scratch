@@ -82,6 +82,7 @@ class Learner:
                     decoder_input[:, 1:].contiguous().view(-1) # Shifting right (without BOS)
                 )
                 loss_sum += loss.item()
+                wandb.log({'Validation/Loss': loss.item()}, step = self.global_step)
                 
                 pred_token_ids = pred_token_ids.detach().cpu()
                 pred_token_ids = nn.functional.log_softmax(pred_token_ids, dim = -1)
@@ -159,6 +160,8 @@ class Learner:
         
         for epoch_idx in range(start_epoch, start_epoch + n_epochs):
             self.track_example(epoch_idx, num_examples = 2)
+            wandb.log({'Tracking': self.table})
+            
             self.validation_epoch(epoch_idx)
             self.training_epoch(epoch_idx)
         wandb.log({'Tracking': self.table}, global_step = self.global_step)
