@@ -21,7 +21,6 @@ class Learner:
         self.device = device
         self.cur_step = 1
         self.best_val_loss = float('inf')
-        self.table = wandb.Table(columns = ["Epoch", "Source", "Data", "Target", "Predicted"])
         self.best_model_state_dict = copy.deepcopy(self.model.state_dict())
         
     def track_example(self, epoch, num_examples = 2):
@@ -43,7 +42,7 @@ class Learner:
                 print(f"Source: {train_source_text}")
                 print(f"Target: {train_target_text}")
                 print(f"Predicted: {train_predicted_text}")
-                self.table.add_data(epoch, train_source_text, 'Train', train_target_text, train_predicted_text)
+                self.table.add_data(epoch, 'Train', train_source_text, train_target_text, train_predicted_text)
                 
             
             # Validation examples
@@ -63,7 +62,7 @@ class Learner:
                 print(f"Source: {val_source_text}")
                 print(f"Target: {val_target_text}")
                 print(f"Predicted: {val_predicted_text}")
-                self.table.add_data(epoch, val_source_text, 'Validation', val_target_text, val_predicted_text)
+                self.table.add_data(epoch, 'Validation', val_source_text, val_target_text, val_predicted_text)
             
     
     def validation_epoch(self, epoch):
@@ -99,8 +98,11 @@ class Learner:
                 
             loss_avg = loss_sum / len(self.val_dataloader)
             bleu_score = corpus_bleu(target_text_list, predict_text_list, smoothing_function = SmoothingFunction().method4)
-            wandb.log({'Validation/BLEU': bleu_score}, step = self.cur_step)
-            wandb.log({'Validation/Avg_loss': loss_avg}, step = self.cur_step)
+            wandb.log(
+                {
+                    'Validation/BLEU': bleu_score,
+                    'Validation/Avg_loss': loss_avg
+                })
             print(f'    - [Info] Validation Loss: {loss_avg:.3f}, BLEU Score: {bleu_score:.3f}')
         
                 
@@ -125,14 +127,12 @@ class Learner:
                 if self.scheduler != None:
                     self.scheduler.step()
                 self.optimizer.zero_grad()
-            wandb.log({'Epoch': epoch}, step = self.cur_step)
-            wandb.log({'Batch': batch_idx}, step = self.cur_step)
             wandb.log({'Train/Loss': loss.item()}, step = self.cur_step)
             self.cur_step += 1
             
             
         loss_avg = loss_sum / len(self.train_dataloader)
-        wandb.log({'Train/Avg_loss': loss_avg, 'Epoch': epoch})
+        wandb.log({'Train/Avg_loss': loss_avg})
         # Save model every 'epoch_cnt' epochs
         if epoch % self.config.MODEL_SAVE_EPOCH_CNT == 0:
             epoch_ckpt_pth = os.path.join(self.config.SAVE_MODEL_DIR, f'model_ckpt_epoch{epoch}.pt')
@@ -142,7 +142,7 @@ class Learner:
                 'optimizer_state_dict': self.optimizer.state_dict(),
             }
             torch.save(checkpoint, epoch_ckpt_pth)
-            wandb.save(epoch_ckpt_pth)
+            wandb.save(os.path.join(wandb.run.dir, 'epochs'), epoch_ckpt_pth)
             print('    - [Info] The checkpoint file has been updated.')
     
         # Save best model
@@ -152,12 +152,14 @@ class Learner:
         
 
     def fit(self, start_epoch, n_epochs):
+        self.table = wandb.Table(columns = ["Epoch", "Source", "Data", "Target", "Predicted"])
         self.n_epochs = n_epochs
+        
         for epoch_idx in range(start_epoch, start_epoch + n_epochs):
             self.track_example(epoch_idx, num_examples = 2)
             self.validation_epoch(epoch_idx)
             self.training_epoch(epoch_idx)
-            
+        wandb.log({'Tracking': self.table})
         # Save best model
         best_model_ckpt_pth = os.path.join(self.config.SAVE_MODEL_DIR, f'model_ckpt_best.pt')
         best_checkpoint = {
@@ -165,6 +167,6 @@ class Learner:
             'optimizer_state_dict': self.optimizer.state_dict(),
         }
         torch.save(best_checkpoint, best_model_ckpt_pth)
-        wandb.save(best_model_ckpt_pth) 
+        wandb.save(os.path.join(wandb.run.dir, 'best_model'), best_model_ckpt_pth) 
         print('    - [Info] The best checkpoint file has been updated.') 
             
