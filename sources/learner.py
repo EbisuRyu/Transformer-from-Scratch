@@ -157,12 +157,7 @@ class Learner:
         
         # Save model every 'epoch_cnt' epochs
         if epoch % self.config.MODEL_SAVE_EPOCH_CNT == 0:
-            checkpoint = {
-                'epoch': epoch,
-                'model_state_dict': self.model.state_dict(),
-                'optimizer_state_dict': self.optimizer.state_dict(),
-            }
-            self.checkpointSaver(checkpoint, epoch, loss_avg)
+            self.checkpointSaver(self.model, self.optimizer, epoch, loss_avg)
             print('    - [Info] The checkpoint file has been updated.')
     
         # Save best model
