@@ -174,6 +174,8 @@ To facilitate inference, I've developed a straightforward application using [Str
 $ streamlit run app/inference_app.py
 ```
 
+https://github.com/DSRoAI/Transformer-from-Scratch/assets/139038099/6bb4ad42-ac8d-4aa5-8330-0a6aebdeb625
+
 
 ### Weights and Biases 
 Utilizing [Weights and Biases](https://wandb.ai/site) significantly enhances MLOps capabilities. Integration with this project automates the generation of valuable logs and visualizations during training. To gain insights into the training process for pretrained models, visit the  [project link](). Real-time synchronization ensures that all logs and visualizations are seamlessly uploaded to the cloud.
@@ -190,6 +192,7 @@ wandb: (2) Use an existing W&B account
 wandb: (3) Don't visualize my results
 wandb: Enter your choice: 
 ```
+
 
 To create and synchronize visualizations with the cloud, you'll require a **W&B account**. The account setup process is quick, taking no more than a minute, and it's completely free. If you prefer not to visualize results, simply choose option 3.
 
