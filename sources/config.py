@@ -1,9 +1,11 @@
+import os
+
 option_1 = dict(
     # RUN CONFIG:
-    EXPERIMENT_NAME = 'runs/tmodel',
+    EXPERIMENT_NAME = 'transformer-from-scratch',
     RUN_NAME = 'official_single_gpu_run',
     RUN_DESCRIPTION = 'Default run on GPU, 10GB of VRAM needed for this.',
-    RUNS_FOLDER_PTH = './Transformer-from-Scratch/runs',
+    RUNS_FOLDER_PTH = './Transformer-from-Scratch/model/runs',
     
     # DATA CONFIG:
     DATASET_SIZE = 133317,
@@ -16,7 +18,7 @@ option_1 = dict(
     BATCH_SIZE = 48,
     GRAD_ACCUMULATION_STEPS = 2048//48,
     WORKER_COUNT = 10,
-    EPOCHS = 50,
+    EPOCHS = 100,
     
     # OPTIMIZER CONFIG:
     BETAS = (0.9, 0.98),
@@ -34,19 +36,19 @@ option_1 = dict(
     
     # LOCAL PATH CONFIG:
     PRETRAIN_MODEL_PTH = './Transformer-from-Scratch/model/model_ckpt_epoch150.pt',
-    PRETRAIN_TOKENIZER_PT = './Transformer-from-Scratch/model/tokenizer.json',
-    SAVE_MODEL_DIR = './Transformer-from-Scratch/model',
-    TOKENIZER_SAVE_PTH = './Transformer-from-Scratch/model/tokenizer.json',
+    PRETRAIN_TOKENIZER_PT = './Transformer-from-Scratch/model/runs/official_single_gpu_run/tokenizer.json',
+    SAVE_MODEL_DIR = './model',
+    TOKENIZER_SAVE_PTH = './Transformer-from-Scratch/model/runs/official_single_gpu_run/tokenizer.json',
     
     # OTHER:
-    DEVICE = 'cpu',
+    DEVICE = 'gpu',
     MODEL_SAVE_EPOCH_CNT = 10,
     LABEL_SMOOTHING = 0.1   
 )
 
 option_2 = dict(
     # RUN CONFIG:
-    EXPERIMENT_NAME = 'runs/tmodel',
+    EXPERIMENT_NAME = 'transformer-from-scratch',
     RUN_NAME = 'unofficial_single_gpu_run',
     RUN_DESCRIPTION = 'Default run on GPU, 10GB of VRAM needed for this.',
     RUNS_FOLDER_PTH = './Transformer-from-Scratch/runs',
@@ -81,8 +83,6 @@ option_2 = dict(
     # LOCAL PATH CONFIG:
     PRETRAIN_MODEL_PTH = './Transformer-from-Scratch/model/model_ckpt_epoch150.pt',
     PRETRAIN_TOKENIZER_PT = './Transformer-from-Scratch/model/tokenizer.json',
-    SAVE_MODEL_DIR = './Transformer-from-Scratch/model',
-    TOKENIZER_SAVE_PTH = './Transformer-from-Scratch/model/tokenizer.json',
     
     # OTHER:
     DEVICE = 'cpu',
