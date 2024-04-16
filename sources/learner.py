@@ -6,6 +6,7 @@ import wandb
 import torch.nn as nn
 
 from tqdm import tqdm
+from .utils import CheckpointSaver
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 
 class Learner:
@@ -19,6 +20,8 @@ class Learner:
         self.optimizer = optimizer
         self.scheduler = scheduler
         self.device = device
+        
+        self.checkpointSaver = CheckpointSaver(os.path.join(self.config.RUNS_FOLDER_PTH, self.config.RUN_NAME), decreasing = True, top_n = 5)
         self.training_step = 1
         self.global_step = 1
         self.best_val_loss = float('inf')
@@ -154,13 +157,12 @@ class Learner:
         
         # Save model every 'epoch_cnt' epochs
         if epoch % self.config.MODEL_SAVE_EPOCH_CNT == 0:
-            epoch_ckpt_pth = os.path.join(self.config.RUNS_FOLDER_PTH, self.config.RUN_NAME, f'model_ckpt_epoch{epoch}.pt')
             checkpoint = {
                 'epoch': epoch,
                 'model_state_dict': self.model.state_dict(),
                 'optimizer_state_dict': self.optimizer.state_dict(),
             }
-            torch.save(checkpoint, epoch_ckpt_pth)
+            self.checkpointSaver(checkpoint, epoch, loss_avg)
             print('    - [Info] The checkpoint file has been updated.')
     
         # Save best model
@@ -178,13 +180,5 @@ class Learner:
             self.validation_epoch(epoch_idx)
             self.training_epoch(epoch_idx)
             
-        wandb.log({'Tracking': self.table}) 
-        # Save best model
-        best_model_ckpt_pth = os.path.join(self.config.RUNS_FOLDER_PTH, self.config.RUN_NAME, f'model_ckpt_best.pt')
-        best_checkpoint = {
-            'model_state_dict': self.best_model_state_dict,
-            'optimizer_state_dict': self.optimizer.state_dict(),
-        }
-        torch.save(best_checkpoint, best_model_ckpt_pth) 
-        print('    - [Info] The best checkpoint file has been updated.') 
+        wandb.log({'Tracking': self.table}) # Log the table
             
