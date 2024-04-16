@@ -128,40 +128,40 @@ You can see all the information and results for pretrained models at this [proje
 Before starting training you can either **choose a configuration out of available ones or create your own** inside a single file `src/config.py`. The available parameters to customize, sorted by categories, are:
 
 - **Run** 🚅:
-   - RUN_NAME - Name of a training run
-   - RUN_DESCRIPTION - Description of a training run
-   - RUNS_FOLDER_PTH - Saving destination of a training run
+   - **RUN_NAME** - Name of a training run
+   - **RUN_DESCRIPTION** - Description of a training run
+   - **RUNS_FOLDER_PTH** - Saving destination of a training run
 - **Data** 🔡:
-   - DATASET_SIZE - Number of examples you want to include from WMT14 en-de dataset (max 4,500,000)
-   - TEST_PROPORTION - Test set proportion
-   - MAX_LEN - Maximum allowed sequence length
-   - VOCAB_SIZE - Size of the vocabulary (good choice is dependant on the tokenizer)
-   - TOKENIZER_TYPE - 'wordlevel' or 'bpe'
+   - **DATASET_SIZE** - Number of examples you want to include from WMT14 en-de dataset (max 4,500,000)
+   - **TEST_PROPORTION** - Test set proportion
+   - **MAX_LEN** - Maximum allowed sequence length
+   - **VOCAB_SIZE** - Size of the vocabulary (good choice is dependant on the tokenizer)
+   - **TOKENIZER_TYPE** - 'wordlevel' or 'bpe'
 - **Training** 🏋️‍♂️:
-   - BATCH_SIZE - Batch size
-   - GRAD_ACCUMULATION_STEPS - Over how many batches to accumulate gradients before optimizing the parameters
-   - WORKER_COUNT - Number of workers used in dataloaders
-   - EPOCHS - Number of epochs
+   - **BATCH_SIZE** - Batch size
+   - **GRAD_ACCUMULATION_STEPS** - Over how many batches to accumulate gradients before optimizing the parameters
+   - **WORKER_COUNT** - Number of workers used in dataloaders
+   - **EPOCHS** - Number of epochs
 - **Optimizer** 📉:
-   - BETAS - Adam beta parameter
-   - EPS - Adam eps parameter
+   - **BETAS** - Adam beta parameter
+   - **EPS** - Adam eps parameter
 - **Scheduler** ⏲️:
-   - N_WARMUP_STEPS - How many warmup steps to use in the scheduler
+   - **N_WARMUP_STEPS** - How many warmup steps to use in the scheduler
 - **Model** 🤖:
-   - D_MODEL - Model dimension 
-   - NUM_LAYERS - Number of encoder and decoder blocks
-   - N_HEADS - Number of heads in the Multi-Head attention mechanism
-   - D_FF - Dimension of the Position Wise Feed Forward network 
-   - DROPOUT - Dropout probability
+   - **D_MODEL** - Model dimension 
+   - **NUM_LAYERS** - Number of encoder and decoder blocks
+   - **N_HEADS** - Number of heads in the Multi-Head attention mechanism
+   - **D_FF** - Dimension of the Position Wise Feed Forward network 
+   - **DROPOUT** - Dropout probability
 - **Local Path📁**:
-    - PRETRAIN_MODEL_PTH - Path of pretrained model
-    - PRETRAIN_TOKENIZER_PT - Path of pretrained tokenizer
-    - SAVE_MODEL_DIR - Directory of saving model
-    - TOKENIZER_SAVE_PTH - Path of saving tokenizer
+    - **PRETRAIN_MODEL_PTH** - Path of pretrained model
+    - **PRETRAIN_TOKENIZER_PT** - Path of pretrained tokenizer
+    - **SAVE_MODEL_DIR** - Directory of saving model
+    - **TOKENIZER_SAVE_PTH** - Path of saving tokenizer
 - **Other** 🧰:
-   - DEVICE - 'gpu' or 'cpu'
-   - MODEL_SAVE_EPOCH_CNT - After how many epochs to save a model checkpoint
-   - LABEL_SMOOTHING - Whether to apply label smoothing
+   - **DEVICE** - 'gpu' or 'cpu'
+   - **MODEL_SAVE_EPOCH_CNT** - After how many epochs to save a model checkpoint
+   - **LABEL_SMOOTHING** - Whether to apply label smoothing
 
 Once you decide on the configuration **edit the config_name in train.py** and do:
 ```
