@@ -10,9 +10,13 @@ from .scheduler import CustomScheduler
 from .dataset import get_translation_dataloaders
 from .machine_translation import MachineTranslationTransformer
 
+# Configure log
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
+
 def train_model(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    logging.info(f'Device: {device}')
+    log.info(f'Device: {device}')
    
     train_dataloader, val_dataloader = get_translation_dataloaders(
             dataset_size = config.DATASET_SIZE,
@@ -42,7 +46,7 @@ def train_model(config):
     optimizer = optim.Adam(model.parameters(), betas = config.BETAS, eps = config.EPS)
     if config.PRETRAIN_MODEL_PTH is not None:
         model_filename = config.PRETRAIN_MODEL_PTH
-        logging.info(f'Loading model weights from {model_filename}')
+        log.info(f'Loading model weights from {model_filename}')
         state = torch.load(model_filename)
         initial_epoch = state['epoch'] + 1
         optimizer.load_state_dict(state['optimizer_state_dict'])

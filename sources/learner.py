@@ -9,8 +9,9 @@ from tqdm import tqdm
 from .utils import CheckpointSaver
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 
-# configuring the logger to info log levek 
-logging.basicConfig(level=logging.INFO) 
+# Configure log
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 
 class Learner:
@@ -44,12 +45,12 @@ class Learner:
                 train_source_text = self.tokenizer.decode(train_encoder_input[i].tolist(), skip_special_tokens = False)
                 train_target_text = self.tokenizer.decode(train_decoder_input[i].tolist(), skip_special_tokens = False)
                 train_predicted_text = self.model.translate(train_source_text, self.tokenizer)
-                logging.info('-' * 80)
-                logging.info(f"Epoch: {epoch}")
-                logging.info(f'Data: Train')
-                logging.info(f"Source: {train_source_text}")
-                logging.info(f"Target: {train_target_text}")
-                logging.info(f"Predicted: {train_predicted_text}")
+                log.info('-' * 80)
+                log.info(f"Epoch: {epoch}")
+                log.info(f'Data: Train')
+                log.info(f"Source: {train_source_text}")
+                log.info(f"Target: {train_target_text}")
+                log.info(f"Predicted: {train_predicted_text}")
                 self.table.add_data(epoch, 'Train', train_source_text, train_target_text, train_predicted_text)
                 
             
@@ -64,12 +65,12 @@ class Learner:
                 val_target_text = self.tokenizer.decode(val_decoder_input[i].tolist(), skip_special_tokens = False)
                 val_predicted_text = self.model.translate(val_source_text, self.tokenizer)
                 
-                logging.info('-' * 80)
-                logging.info(f"Epoch: {epoch}")
-                logging.info(f'Data: Validation')
-                logging.info(f"Source: {val_source_text}")
-                logging.info(f"Target: {val_target_text}")
-                logging.info(f"Predicted: {val_predicted_text}")
+                log.info('-' * 80)
+                log.info(f"Epoch: {epoch}")
+                log.info(f'Data: Validation')
+                log.info(f"Source: {val_source_text}")
+                log.info(f"Target: {val_target_text}")
+                log.info(f"Predicted: {val_predicted_text}")
                 self.table.add_data(epoch, 'Validation', val_source_text, val_target_text, val_predicted_text)
             
     
@@ -119,7 +120,7 @@ class Learner:
                 }, step = self.global_step)
             self.global_step += 1
             
-            logging.info(f'    - [Info] Validation Loss: {loss_avg:.3f}, BLEU Score: {bleu_score:.3f}')
+            log.info(f'    - [Info] Validation Loss: {loss_avg:.3f}, BLEU Score: {bleu_score:.3f}')
         
                 
 
@@ -162,7 +163,7 @@ class Learner:
         # Save model every 'epoch_cnt' epochs
         if epoch % self.config.MODEL_SAVE_EPOCH_CNT == 0:
             self.checkpointSaver(self.model, self.optimizer, epoch, loss_avg)
-            logging.info('    - [Info] The checkpoint file has been updated.')
+            log.info('    - [Info] The checkpoint file has been updated.')
     
         # Save best model
         if loss_avg < self.best_val_loss:

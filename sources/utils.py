@@ -2,7 +2,9 @@ import os
 import torch
 import logging
 import numpy as np
-
+# Configure log
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 class CheckpointSaver:
     def __init__(self, dirpath, decreasing = True, top_n = 5):
         """

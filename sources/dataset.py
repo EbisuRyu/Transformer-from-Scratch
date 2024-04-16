@@ -9,6 +9,10 @@ from datasets import load_dataset
 from tokenizers import Tokenizer
 from .tokenizer import get_tokenizer_wordlevel, get_tokenizer_bpe
 
+# Configure log
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
+
 def get_dataset(example_cnt, split = 'train'):
     dataset = load_dataset('mt_eng_vietnamese',  "iwslt2015-en-vi", split = split).shuffle(seed = 42)
     dataset = dataset.select(range(example_cnt))
@@ -114,7 +118,7 @@ def get_translation_dataloaders(
         tokenizer = Tokenizer.from_file(wandb.config.PRETRAIN_TOKENIZER_PT)
     else:
         # Save tokenizers
-        logging.info(f'Saving tokenizer to {tokenizer_save_pth}')
+        log.info(f'Saving tokenizer to {tokenizer_save_pth}')
         tokenizer.save(tokenizer_save_pth)
     data = preprocess_data(data, tokenizer, max_len, test_proportion)
 
