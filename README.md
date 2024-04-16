@@ -103,13 +103,17 @@ A key attribute of transformers, in general, is their ability to process sequenc
 
 ### Environment
 **Using Miniconda/Anaconda:**
+Below is the command line to create a Conda environment using a YAML file.
 ```
 cd path_to_repo
-conda env create transformer-env
-conda activate transformer-env
+conda env create -f environment.yml
+conda activate ryukenx_transformer_env
 ```
-
-***Note**: Depending on your GPU you might need to switch cudatoolkit to version 10.2*
+**Using pip install:** Alternatively, you can install the required libraries using the following command line.
+```
+cd path_to_repo
+pip install -r requirement.txt 
+```
 
 ### Pretrained Models
 To download the pretrained model and tokenizer run:
@@ -149,7 +153,7 @@ Before starting training you can either **choose a configuration out of availabl
    - N_HEADS - Number of heads in the Multi-Head attention mechanism
    - D_FF - Dimension of the Position Wise Feed Forward network 
    - DROPOUT - Dropout probability
-- **Local Path**:
+- **Local Path📁**:
     - PRETRAIN_MODEL_PTH - Path of pretrained model
     - PRETRAIN_TOKENIZER_PT - Path of pretrained tokenizer
     - SAVE_MODEL_DIR - Directory of saving model
