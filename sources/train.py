@@ -12,7 +12,7 @@ from .machine_translation import MachineTranslationTransformer
 
 # Configure log
 log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+logging.basicConfig(level = logging.INFO) 
 
 def train_model(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

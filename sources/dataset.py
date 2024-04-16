@@ -11,7 +11,7 @@ from .tokenizer import get_tokenizer_wordlevel, get_tokenizer_bpe
 
 # Configure log
 log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+logging.basicConfig(level = logging.INFO) 
 
 def get_dataset(example_cnt, split = 'train'):
     dataset = load_dataset('mt_eng_vietnamese',  "iwslt2015-en-vi", split = split).shuffle(seed = 42)

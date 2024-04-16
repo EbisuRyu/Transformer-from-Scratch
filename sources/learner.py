@@ -11,7 +11,7 @@ from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 
 # Configure log
 log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+logging.basicConfig(level = logging.INFO) 
 
 
 class Learner:
