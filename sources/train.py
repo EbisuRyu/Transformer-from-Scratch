@@ -1,5 +1,6 @@
 import torch
 import wandb
+import logging
 import torch.nn as nn
 import torch.optim as optim
 from tokenizers import Tokenizer
@@ -11,7 +12,7 @@ from .machine_translation import MachineTranslationTransformer
 
 def train_model(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f'Device: {device}')
+    logging.info(f'Device: {device}')
    
     train_dataloader, val_dataloader = get_translation_dataloaders(
             dataset_size = config.DATASET_SIZE,
@@ -41,7 +42,7 @@ def train_model(config):
     optimizer = optim.Adam(model.parameters(), betas = config.BETAS, eps = config.EPS)
     if config.PRETRAIN_MODEL_PTH is not None:
         model_filename = config.PRETRAIN_MODEL_PTH
-        print(f'Loading model weights from {model_filename}')
+        logging.info(f'Loading model weights from {model_filename}')
         state = torch.load(model_filename)
         initial_epoch = state['epoch'] + 1
         optimizer.load_state_dict(state['optimizer_state_dict'])

@@ -1,6 +1,7 @@
 import random
 import torch
 import wandb
+import logging
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.sampler import Sampler
 from torch.nn.utils.rnn import pad_sequence
@@ -113,7 +114,7 @@ def get_translation_dataloaders(
         tokenizer = Tokenizer.from_file(wandb.config.PRETRAIN_TOKENIZER_PT)
     else:
         # Save tokenizers
-        print(f'Saving tokenizer to {tokenizer_save_pth}')
+        logging.info(f'Saving tokenizer to {tokenizer_save_pth}')
         tokenizer.save(tokenizer_save_pth)
     data = preprocess_data(data, tokenizer, max_len, test_proportion)
 
