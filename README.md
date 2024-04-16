@@ -177,8 +177,11 @@ $ streamlit run app/inference_app.py
 
 ### Weights and Biases 
 Utilizing [Weights and Biases](https://wandb.ai/site) significantly enhances MLOps capabilities. Integration with this project automates the generation of valuable logs and visualizations during training. To gain insights into the training process for pretrained models, visit the  [project link](). Real-time synchronization ensures that all logs and visualizations are seamlessly uploaded to the cloud.
-
-![](other/logs_example.jpg)
+<a>
+  <p align="center">
+    <img width="800" height="!" src="other/3.png" style='border:8px solid #bfbfbf'>
+  </p>
+</a>
 
 When you start training you will be asked:
 ```
