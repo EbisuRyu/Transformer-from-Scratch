@@ -118,7 +118,7 @@ def get_translation_dataloaders(
         tokenizer = Tokenizer.from_file(wandb.config.PRETRAIN_TOKENIZER_PT)
     else:
         # Save tokenizers
-        log.info(f'Saving tokenizer to {tokenizer_save_pth}')
+        print(f'Saving tokenizer to {tokenizer_save_pth}')
         tokenizer.save(tokenizer_save_pth)
     data = preprocess_data(data, tokenizer, max_len, test_proportion)
 

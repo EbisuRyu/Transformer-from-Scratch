@@ -23,7 +23,7 @@ class CheckpointSaver:
         model_path = os.path.join(self.dirpath, model.__class__.__name__ + f'_epoch{epoch}.pt')
         save = metric_val < self.best_metric_val if self.decreasing else metric_val > self.best_metric_val
         if save: 
-            log.info(f"Current metric value better than {metric_val} better than best {self.best_metric_val}, saving model at {model_path}")
+            print(f"Current metric value better than {metric_val} better than best {self.best_metric_val}, saving model at {model_path}")
             self.best_metric_val = metric_val
             checkpoint = {
                 'epoch': epoch,
@@ -38,7 +38,7 @@ class CheckpointSaver:
     
     def cleanup(self):
         to_remove = self.top_model_paths[self.top_n : ]
-        log.info(f"Removing extra models.. {to_remove}")
+        print(f"Removing extra models.. {to_remove}")
         for o in to_remove:
             os.remove(o['path'])
         self.top_model_paths = self.top_model_paths[ : self.top_n]
