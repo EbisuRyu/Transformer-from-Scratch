@@ -36,7 +36,7 @@ In this project, I meticulously designed a Machine Translation Engine specifical
   * [Inference](#inference)
 * [Data](#data)
 * [Architecture](#architecture)
-* [Weights and Biases Logs](#weights-and-biases-logs)
+* [Weights and Biases](#weights-and-biases)
 * [Citation](#citation)
 * [License](#license)
 
