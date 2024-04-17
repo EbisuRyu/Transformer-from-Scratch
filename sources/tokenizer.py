@@ -5,7 +5,7 @@ from tokenizers import normalizers
 from tokenizers.normalizers import Lowercase, NFD, StripAccents
 from tokenizers.trainers import BpeTrainer, WordLevelTrainer
 from tokenizers.models import WordLevel, BPE
-from tokenizers.pre_tokenizers import Whitespace,WhitespaceSplit
+from tokenizers.pre_tokenizers import Whitespace, WhitespaceSplit
 
 
 def get_tokenizer_bpe(data, vocab_size):

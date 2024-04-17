@@ -1,12 +1,17 @@
 import random
 import torch
 import wandb
+import logging
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.sampler import Sampler
 from torch.nn.utils.rnn import pad_sequence
 from datasets import load_dataset
 from tokenizers import Tokenizer
 from .tokenizer import get_tokenizer_wordlevel, get_tokenizer_bpe
+
+# Configure log
+log = logging.getLogger(__name__)
+logging.basicConfig(level = logging.INFO) 
 
 def get_dataset(example_cnt, split = 'train'):
     dataset = load_dataset('mt_eng_vietnamese',  "iwslt2015-en-vi", split = split).shuffle(seed = 42)

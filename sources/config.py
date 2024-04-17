@@ -42,7 +42,7 @@ option_1 = dict(
     
     # OTHER:
     DEVICE = 'gpu',
-    MODEL_SAVE_EPOCH_CNT = 10,
+    MODEL_SAVE_EPOCH_CNT = 5,
     LABEL_SMOOTHING = 0.1   
 )
 

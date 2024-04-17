@@ -120,7 +120,7 @@ To download the pretrained model and tokenizer run:
 ```
 python scripts/download_pretrained.py
 ```
-You can see all the information and results for pretrained models at this [project link]().
+You can see all the information and results for pretrained models at this [project link](https://api.wandb.ai/links/kenshin/f0kjnin5).
 
 # Usage
 

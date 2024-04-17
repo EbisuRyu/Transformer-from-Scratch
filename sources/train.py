@@ -1,5 +1,6 @@
 import torch
 import wandb
+import logging
 import torch.nn as nn
 import torch.optim as optim
 from tokenizers import Tokenizer
@@ -8,6 +9,10 @@ from .learner import Learner
 from .scheduler import CustomScheduler
 from .dataset import get_translation_dataloaders
 from .machine_translation import MachineTranslationTransformer
+
+# Configure log
+log = logging.getLogger(__name__)
+logging.basicConfig(level = logging.INFO) 
 
 def train_model(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

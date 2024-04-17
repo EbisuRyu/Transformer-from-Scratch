@@ -9,6 +9,11 @@ from tqdm import tqdm
 from .utils import CheckpointSaver
 from nltk.translate.bleu_score import corpus_bleu, SmoothingFunction
 
+# Configure log
+log = logging.getLogger(__name__)
+logging.basicConfig(level = logging.INFO) 
+
+
 class Learner:
     def __init__(self, config, model, tokenizer, train_dataloader, val_dataloader, loss_func, optimizer, scheduler = None, device = 'cpu'):
         self.config = config
@@ -24,8 +29,6 @@ class Learner:
         self.checkpointSaver = CheckpointSaver(os.path.join(self.config.RUNS_FOLDER_PTH, self.config.RUN_NAME), decreasing = True, top_n = 5)
         self.training_step = 1
         self.global_step = 1
-        self.best_val_loss = float('inf')
-        self.best_model_state_dict = copy.deepcopy(self.model.state_dict())
         
     def track_example(self, epoch, num_examples = 2):
         self.model.eval()
@@ -157,18 +160,8 @@ class Learner:
         
         # Save model every 'epoch_cnt' epochs
         if epoch % self.config.MODEL_SAVE_EPOCH_CNT == 0:
-            checkpoint = {
-                'epoch': epoch,
-                'model_state_dict': self.model.state_dict(),
-                'optimizer_state_dict': self.optimizer.state_dict(),
-            }
-            self.checkpointSaver(checkpoint, epoch, loss_avg)
+            self.checkpointSaver(self.model, self.optimizer, epoch, loss_avg)
             print('    - [Info] The checkpoint file has been updated.')
-    
-        # Save best model
-        if loss_avg < self.best_val_loss:
-            self.best_val_loss = loss_avg
-            self.best_model_state_dict = copy.deepcopy(self.model.state_dict()) 
         
 
     def fit(self, start_epoch, n_epochs):
