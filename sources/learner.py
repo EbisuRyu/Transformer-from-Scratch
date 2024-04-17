@@ -29,8 +29,6 @@ class Learner:
         self.checkpointSaver = CheckpointSaver(os.path.join(self.config.RUNS_FOLDER_PTH, self.config.RUN_NAME), decreasing = True, top_n = 5)
         self.training_step = 1
         self.global_step = 1
-        self.best_val_loss = float('inf')
-        self.best_model_state_dict = copy.deepcopy(self.model.state_dict())
         
     def track_example(self, epoch, num_examples = 2):
         self.model.eval()
@@ -164,11 +162,6 @@ class Learner:
         if epoch % self.config.MODEL_SAVE_EPOCH_CNT == 0:
             self.checkpointSaver(self.model, self.optimizer, epoch, loss_avg)
             print('    - [Info] The checkpoint file has been updated.')
-    
-        # Save best model
-        if loss_avg < self.best_val_loss:
-            self.best_val_loss = loss_avg
-            self.best_model_state_dict = copy.deepcopy(self.model.state_dict()) 
         
 
     def fit(self, start_epoch, n_epochs):
