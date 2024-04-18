@@ -1,4 +1,5 @@
 import os
+import wandb
 import torch
 import logging
 import numpy as np
@@ -46,6 +47,7 @@ class CheckpointSaver:
                 'optimizer_state_dict': optimizer.state_dict(),
             }
             torch.save(checkpoint, model_path)
+            wandb.save(os.path.join(wandb.run.dir, f"{model.__class__.__name__}*"))
             self.top_model_paths.append({'path': model_path, 'score': metric_val})
             self.top_model_paths = sorted(self.top_model_paths, key=lambda o: o['score'], reverse=not self.decreasing)
         if len(self.top_model_paths) > self.top_n: 
