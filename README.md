@@ -36,7 +36,7 @@ In this project, I meticulously designed a Machine Translation Engine specifical
   * [Inference](#inference)
 * [Data](#data)
 * [Architecture](#architecture)
-* [Weights and Biases Logs](#weights-and-biases-logs)
+* [Weights and Biases](#weights-and-biases)
 * [Citation](#citation)
 * [License](#license)
 
@@ -163,10 +163,10 @@ Before starting training you can either **choose a configuration out of availabl
    - **MODEL_SAVE_EPOCH_CNT** - After how many epochs to save a model checkpoint
    - **LABEL_SMOOTHING** - Whether to apply label smoothing
 
-Once you decide on the configuration **edit the config_name in train.py** and do:
+Once you decide on the configuration **edit the config name in main.py** and do:
 ```
 $ cd src
-$ python train.py
+$ python main.py
 ```
 ### Inference
 To facilitate inference, I've developed a straightforward application using [Streamlit](https://streamlit.io/), which operates directly within your browser. Prior to using the app, ensure that you've either trained your models or downloaded pretrained ones. The application automatically searches the `model` directory for checkpoints of both the model and the tokenizer.
