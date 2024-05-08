@@ -8,7 +8,7 @@ In this project, I meticulously designed a Machine Translation Engine specifical
 
 **📝Author:**
 
-- **Github:** [DSRoAI](https://github.com/DSRoAI) 🔗
+- **Github:** [EbisuRyu](https://github.com/EbisuRyu) 🔗
 - **Email:** nhhlong2004@gmail.com 📧
 - **Facebook:** [Long Hoang](https://www.facebook.com/hoanglong.roai/) 👤
 - **LinkedIn:** [Long Nguyen Huu Hoang](https://www.linkedin.com/in/long-nguy%E1%BB%85n-h%E1%BB%AFu-ho%C3%A0ng-023870287/) 💼
